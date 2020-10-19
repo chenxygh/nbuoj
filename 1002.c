@@ -1,47 +1,36 @@
 #include <stdio.h>
+#include <string.h>
 
-int partition (int *nums, int left, int right) {
-	int pivot = nums[left];
-	while (left < right) {
-		while (left < right && pivot <= nums[right]) --right;
-		nums[left] = nums[right];
-		while (left < right && pivot >= nums[left]) ++left;
-		nums[right] = nums[left];
-	}
-	nums[left] = pivot;
-	return left;
-}
 
-void findPre (int *nums, int numsSize, int n) {
-	int left = 0, right = numsSize - 1;
-	int pivotPos = partition (nums, left, right);
-	while ((pivotPos + 1) != n) {
-		if (pivotPos + 1 < n) {
-			left = pivotPos + 1;
-		} else {
-			right = pivotPos - 1;
-		}
-		pivotPos = partition (nums, left, right);
-	}
-}
-
-void func (int *nums, int numsSize, int left, int right) {
-	findPre (nums, numsSize, right);
-	findPre (nums, right, left);
-}
 
 int main(int argc, char const *argv[])
 {
-	int nums[500000] = {0}, numsSize = 0, num = -1, left = 4, right = 10;
-	scanf ("%d", &num);
-	while (num != 0) {
-		nums[numsSize++] = num;
-		scanf ("%d", &num);
-	}
-	func (nums, numsSize, left, right);
-	for (int i = left; i < right; ++i) {
-		printf("%d\n", nums[i]);
+	int n = 0, m = 0;
+	scanf ("%d%d", &n, &m);
+	int obstacleGrid[n][n];
+	memset (obstacleGrid[0], 0, n * n * sizeof (int));
+	while (m--) {
+		int x = 0, y = 0;
+		scanf ("%d%d", &x, &y);
+		obstacleGrid[x - 1][y - 1] = 1;
 	}
 
+	int a[n], b[n];
+    int *preResult = a, *result = b;
+    int k = 0;
+    while (k < n && obstacleGrid[0][k] == 0) preResult[k++] = 1;
+    while (k < n) preResult[k++] = 0;
+
+    for (int i = 1; i < n; ++i) {
+        result[0] = preResult[0] == 0? 0: !obstacleGrid[i][0];
+        for (int j = 1; j < n; ++j) {
+            result[j] = (obstacleGrid[i][j] == 0? result[j - 1] + preResult[j]: 0) % 10000;
+        }
+        int *temp = result;
+        result = preResult;
+        preResult = temp;
+    }
+
+    printf("%d\n", preResult[n - 1]);
 	return 0;
 }

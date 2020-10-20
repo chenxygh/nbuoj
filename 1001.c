@@ -23,19 +23,16 @@ int main(int argc, char const *argv[])
 		printf("%d\n", 3);
 		return 0;
 	}
-	int a[1000] = {0}, b[1000] = {0}, c[1000] = {0}, d[1000] = {0};
-	int *p = a, *q = b, *r = c, *t = d;
+	int a[1000] = {0}, b[1000] = {0};
+	int *p = a, *q = b;
 	a[999] = 1;
 	b[999] = 3;
 	for (int i = 3; i <= n; ++i) {
-		memset (r, 0, sizeof (int) * 1000);
-		memset (t, 0, sizeof (int) * 1000);
-		bigAdd (p, q, t);
-		bigAdd (t, p, r);
-		t = p;
+		bigAdd (p, p, p);
+		bigAdd (q, p, p);
+		int *t = p;
 		p = q;
-		q = r;
-		r = t;
+		q = t;
 	}
 	int index = 0;
 	while (q[index] == 0) ++index;

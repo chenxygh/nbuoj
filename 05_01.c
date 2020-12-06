@@ -19,7 +19,7 @@ int main () {
     for (int i = 0; i < n; ++i) {
         dp[i].index = i;
         dp[i].val = 1;
-        for (int j = 1; j < i; ++j) {
+        for (int j = 0; j < i; ++j) {
             if (nums[j] <= nums[i] && dp[j].val + 1 >= dp[i].val) {
                 dp[i].val = dp[j].val + 1;
                 dp[i].index = j;
